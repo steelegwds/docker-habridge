@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.10
+FROM ghcr.io/linuxserver/baseimage-alpine:3.13
 
 # set version label
 ARG BUILD_DATE
@@ -25,7 +25,7 @@ RUN \
  mkdir -p \
 	/app && \
  habridge_url=$(curl -s https://api.github.com/repos/bwssytems/ha-bridge/releases \
-	| jq -r 'first(.[] | select(.tag_name == '\"${HABRIDGE_RELEASE}\"')) | .assets[].browser_download_url') && \
+	| jq -r 'first(.[] | select(.tag_name == '\"${HABRIDGE_RELEASE}\"')) | .assets[].browser_download_url' | grep -v java11) && \
  curl -o \
  /app/ha-bridge.jar -L \
 	"$habridge_url" && \
